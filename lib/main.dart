@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 import './book_list.dart';
 
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     Firestore.instance
         .collection('books')
         .document()
-        .setData({'title': 'My Book23', 'author': 'gregS'});
+        .setData({'title': 'My BookButts', 'author': 'buttZ'});
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
