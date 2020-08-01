@@ -31,11 +31,9 @@ class _AuthenticateState extends State<Authenticate> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-          child: showSignIn ? SignIn() : Register(),
-        ),
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        child: showSignIn ? SignIn() : Register(),
       ),
     );
   }

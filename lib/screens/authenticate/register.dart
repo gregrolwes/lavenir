@@ -14,7 +14,7 @@ class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  bool loading = false;
+  bool loading = true;
 
   // text field state
   String email = '';
@@ -36,33 +36,35 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return loading ? Loading() : Form(
-      key: _formKey,
-      child: Column(
-        children: <Widget>[
-          Image(image: AssetImage('assets/logo_main.png')),
-          SizedBox(height: 20.0),
-          TextFormField(
-            decoration: emailInputDecoration,
-            validator: (val) => val.isEmpty ? 'Enter an email' : null,
-            onChanged: (val) {
-              setState(() => email = val);
-            }
-          ),
-          SizedBox(height: 20.0),
-          TextFormField(
-            decoration: passwordInputDecoration,
-            obscureText: true,
-            validator: (val) => val.length < 6 ? 'Password must be at least 6 characters' : null,
-            onChanged: (val) {
-              setState(() => password = val);
-            },
-          ),
-          SizedBox(height: 20.0),
-          SubmitButton(submitFunction: register, label: 'Register',),
-          SizedBox(height: 12.0),
-          ErrorMessage(errorMessage: error),
-        ]
+    return loading ? Loading() : SingleChildScrollView(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            Image(image: AssetImage('assets/logo_main.png')),
+            SizedBox(height: 20.0),
+            TextFormField(
+              decoration: emailInputDecoration,
+              validator: (val) => val.isEmpty ? 'Enter an email' : null,
+              onChanged: (val) {
+                setState(() => email = val);
+              }
+            ),
+            SizedBox(height: 20.0),
+            TextFormField(
+              decoration: passwordInputDecoration,
+              obscureText: true,
+              validator: (val) => val.length < 6 ? 'Password must be at least 6 characters' : null,
+              onChanged: (val) {
+                setState(() => password = val);
+              },
+            ),
+            SizedBox(height: 20.0),
+            SubmitButton(submitFunction: register, label: 'Register',),
+            SizedBox(height: 12.0),
+            ErrorMessage(errorMessage: error),
+          ]
+        ),
       ),
     );
   }
