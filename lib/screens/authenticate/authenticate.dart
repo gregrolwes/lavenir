@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lavenir/services/auth.dart';
 import 'package:lavenir/shared/constants.dart';
+import 'package:lavenir/shared/error.dart';
 import 'package:lavenir/shared/loading.dart';
 import 'package:lavenir/shared/submit_button.dart';
 
@@ -94,10 +95,7 @@ class _AuthenticateState extends State<Authenticate> {
                 SizedBox(height: 20.0),
                 SubmitButton(submitFunction: submit, label: _submitLabel,),
                 SizedBox(height: 12.0),
-                Text(
-                  error, 
-                  style: TextStyle(color: Colors.red, fontSize: 14.0)
-                ),
+                ErrorMessage(errorMessage: _errorMessage),
               ]
             ),
           ),
