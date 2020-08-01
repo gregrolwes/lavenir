@@ -95,7 +95,7 @@ class _AuthenticateState extends State<Authenticate> {
                 SizedBox(height: 20.0),
                 SubmitButton(submitFunction: submit, label: _submitLabel,),
                 SizedBox(height: 12.0),
-                ErrorMessage(errorMessage: _errorMessage),
+                ErrorMessage(errorMessage: error),
               ]
             ),
           ),
