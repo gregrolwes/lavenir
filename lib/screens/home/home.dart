@@ -1,5 +1,6 @@
 import 'package:lavenir/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lavenir/shared/constants.dart';
 
 class Home extends StatelessWidget {
 
@@ -8,18 +9,18 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     backgroundColor: Colors.brown[50],
+     backgroundColor: lightGreen,
      appBar: AppBar(
        title: Text('Lavenir'),
-       backgroundColor: Colors.brown[400],
+       backgroundColor: green,
        elevation: 0.0,
        actions: <Widget>[
          FlatButton.icon(
-           icon: Icon(Icons.person),
-           label: Text('Logout'),
-           onPressed: () async {
-             await _auth.signOut();
-           },
+            icon: Icon(Icons.person, color: Colors.white,), 
+            label: Text('Logout', style: TextStyle(color: Colors.white,)),
+            onPressed: () async {
+              await _auth.signOut();
+            },
          ),
        ],
      )
