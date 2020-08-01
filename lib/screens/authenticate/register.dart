@@ -14,7 +14,7 @@ class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  bool loading = true;
+  bool loading = false;
 
   // text field state
   String email = '';
