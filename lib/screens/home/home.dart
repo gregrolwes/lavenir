@@ -31,23 +31,33 @@ class Home extends StatelessWidget {
       body: Center(
           child:
               Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
           children:
             <Widget>[
+              SizedBox(height:height/20),
               Text("Upcoming Shifts",
               style: TextStyle(fontSize: height/20, fontWeight: FontWeight.bold)),
-              SizedBox(height:height/2.5),
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 20.0),
+          height: height/3,
+          child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Container(
+                  width: width,
+                  color: Colors.red,
+                ),
+                Container(
+                  width: width,
+                  color: Colors.blue,
+                )]),
+        ),
+              SizedBox(height:height/7),
+              _ButtonDesign("Request Shift",width),
+              SizedBox(height:height/15),
 
-              _ButtonDesign("Shift Requests",width),
-              SizedBox(height:height/25),
-              _ButtonDesign("Time Off Requests",width),
-              SizedBox(height:height/25),
-
-              _ButtonDesign("Work Chat Messages",width),
-              SizedBox(height:height/25),
-
-              _ButtonDesign("Set My Availability",width),
-              SizedBox(height:height/25),
+              _ButtonDesign("View Available Shifts",width),
+//              SizedBox(height:height/8),
 
             ]
         ),
