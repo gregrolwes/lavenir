@@ -19,15 +19,15 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: lightGreen,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: green,
+        backgroundColor: headerColor,
         elevation: 0.0,
         actions: <Widget>[
           FlatButton.icon(
             onPressed: () { setState(() => showSignIn = !showSignIn); }, 
-            icon: Icon(Icons.person, color: Colors.white,), 
-            label: Text(_headerLabel, style: TextStyle(color: Colors.white,)),
+            icon: Icon(Icons.person, color: headerIconColor,), 
+            label: Text(_headerLabel, style: headerText),
           ),
         ],
       ),
