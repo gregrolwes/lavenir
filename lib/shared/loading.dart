@@ -8,10 +8,15 @@ class Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: SpinKitThreeBounce(
-          color: green,
-          size: 50.0,
-        ),
+        child: Column (
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SpinKitThreeBounce(
+              color: headerColor,
+              size: 50.0,
+            ),
+          ],
+        )
       ),
     );
   }
