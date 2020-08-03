@@ -12,17 +12,18 @@ class Home extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-
-    backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text('Lavenir'),
         backgroundColor: headerColor,
         elevation: 0.0,
         actions: <Widget>[
-    FlatButton.icon(
-    icon: Icon(Icons.person, color: headerIconColor,),
-    label: Text('Logout', style: headerText),
-
+          FlatButton.icon(
+            icon: Icon(
+              Icons.person,
+              color: headerIconColor,
+            ),
+            label: Text('Logout', style: headerText),
             onPressed: () async {
               await _auth.signOut();
             },
