@@ -12,17 +12,18 @@ class Home extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-
-    backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text('Lavenir'),
         backgroundColor: headerColor,
         elevation: 0.0,
         actions: <Widget>[
-    FlatButton.icon(
-    icon: Icon(Icons.person, color: headerIconColor,),
-    label: Text('Logout', style: headerText),
-
+          FlatButton.icon(
+            icon: Icon(
+              Icons.person,
+              color: headerIconColor,
+            ),
+            label: Text('Logout', style: headerText),
             onPressed: () async {
               await _auth.signOut();
             },
@@ -30,39 +31,37 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: height / 20),
-              Text("Upcoming Shifts",
-                  style: TextStyle(
-                      fontSize: height / 20, fontWeight: FontWeight.bold)),
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
+            Widget>[
+          SizedBox(height: height / 20),
+          Text("Upcoming Shifts",
+              style: TextStyle(
+                  fontSize: height / 20, fontWeight: FontWeight.bold)),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 20.0),
+            height: height / 3,
+            child:
+                ListView(scrollDirection: Axis.horizontal, children: <Widget>[
               Container(
-                margin: EdgeInsets.symmetric(vertical: 20.0),
-                height: height / 3,
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      Container(
-                        width: width,
-                        color: Colors.red,
-                      ),
-                      Container(
-                        width: width,
-                        color: Colors.blue,
-                      )
-                    ]),
+                width: width,
+                color: Colors.red,
               ),
-              SizedBox(height: height / 20),
-              _ButtonDesign("Add Availability", width, ""),
-              //Not sure if name is descriptive enough, but can change later
-              SizedBox(height: height / 25),
-              _ButtonDesign("Request Shift", width, ""),
-              SizedBox(height: height / 25),
-
-              _ButtonDesign("View Available Shifts", width, ""),
-//              SizedBox(height:height/8),
+              Container(
+                width: width,
+                color: Colors.blue,
+              )
             ]),
+          ),
+          SizedBox(height: height / 20),
+          _ButtonDesign("Add Availability", width, "/shifts/add-availability"),
+          //Not sure if name is descriptive enough, but can change later
+          SizedBox(height: height / 25),
+          _ButtonDesign("Request Shift", width, "/shifts/request-shifts"),
+          SizedBox(height: height / 25),
+
+          _ButtonDesign("View Available Shifts", width, "/shifts/view-shifts"),
+//              SizedBox(height:height/8),
+        ]),
       ),
     );
   }
