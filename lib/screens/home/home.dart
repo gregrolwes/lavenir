@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:lavenir/screens/shifts/announcement.dart';
+import 'package:lavenir/screens/shifts/schedule.dart';
+import 'package:lavenir/screens/shifts/availability.dart';
 import 'package:lavenir/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lavenir/shared/constants.dart';
@@ -19,8 +22,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    List<Widget> _widgetOptions = <Widget>[
+      Availability(),
+      Announcement(),
+      Schedule()
+    ];
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -42,51 +48,21 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
-            Widget>[
-          SizedBox(height: height / 20),
-          Text("Upcoming Shifts",
-              style: TextStyle(
-                  fontSize: height / 20, fontWeight: FontWeight.bold)),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 20.0),
-            height: height / 3,
-            child:
-                ListView(scrollDirection: Axis.horizontal, children: <Widget>[
-              Container(
-                width: width,
-                color: Colors.red,
-              ),
-              Container(
-                width: width,
-                color: Colors.blue,
-              )
-            ]),
-          ),
-          SizedBox(height: height / 20),
-          _ButtonDesign("Add Availability", width, "/shifts/add-availability"),
-          //Not sure if name is descriptive enough, but can change later
-          SizedBox(height: height / 25),
-          _ButtonDesign("Request Shift", width, "/shifts/request-shifts"),
-          SizedBox(height: height / 25),
-
-          // _ButtonDesign("View Available Shifts", width, "/shifts/view-shifts"),
-//              SizedBox(height:height/8),
-        ]),
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
+            icon: Icon(Icons.access_time),
+            title: Text('Availability'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Business'),
+            icon: Icon(Icons.announcement),
+            title: Text('Announcements'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('School'),
+            icon: Icon(Icons.calendar_today),
+            title: Text('Schedule'),
           ),
         ],
         currentIndex: _selectedIndex,
@@ -94,34 +70,5 @@ class _HomeState extends State<Home> {
         onTap: _onItemTapped,
       ),
     );
-  }
-}
-
-class _ButtonDesign extends StatelessWidget {
-  String input = "";
-  double screenWidth = 0;
-  String route = "";
-
-  _ButtonDesign(String inp, double width, String route) {
-    this.input = inp;
-    this.screenWidth = width;
-    this.route = route;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: screenWidth / 1.5,
-        child: RaisedButton(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          color: Colors.orangeAccent[100],
-          child: Text(
-            this.input,
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, route);
-          },
-        ));
   }
 }
