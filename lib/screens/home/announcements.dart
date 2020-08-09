@@ -4,12 +4,11 @@ import 'package:lavenir/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddAvailability extends StatelessWidget {
+class Announcement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-      title: Text('Add Availibity'),
-    ));
+      body: Text('Announcement'),
+    );
   }
 }
