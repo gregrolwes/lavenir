@@ -1,7 +1,7 @@
 import 'package:lavenir/models/user.dart';
-import 'package:lavenir/screens/shifts/availability.dart';
-import 'package:lavenir/screens/shifts/announcement.dart';
-import 'package:lavenir/screens/shifts/schedule.dart';
+import 'package:lavenir/screens/home/availability.dart';
+import 'package:lavenir/screens/home/announcements.dart';
+import 'package:lavenir/screens/home/schedule.dart';
 import 'package:lavenir/screens/wrapper.dart';
 import 'package:lavenir/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(initialRoute: '/screens/wrapper', routes: {
         '/screens/wrapper': (context) => Wrapper(),
-        '/shifts/availability': (context) => Availability(),
-        '/shifts/announcement': (context) => Announcement(),
-        '/shifts/schedule': (context) => Schedule(),
+        '/home/availability': (context) => Availability(),
+        '/home/announcements': (context) => Announcement(),
+        '/home/schedule': (context) => Schedule(),
       }),
     );
   }

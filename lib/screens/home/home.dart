@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lavenir/screens/shifts/announcement.dart';
-import 'package:lavenir/screens/shifts/schedule.dart';
-import 'package:lavenir/screens/shifts/availability.dart';
+import 'package:lavenir/screens/home/announcements.dart';
+import 'package:lavenir/screens/home/schedule.dart';
+import 'package:lavenir/screens/home/availability.dart';
 import 'package:lavenir/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lavenir/shared/constants.dart';
