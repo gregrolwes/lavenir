@@ -3,8 +3,19 @@ import 'package:lavenir/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lavenir/shared/constants.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +70,28 @@ class Home extends StatelessWidget {
           _ButtonDesign("Request Shift", width, "/shifts/request-shifts"),
           SizedBox(height: height / 25),
 
-          _ButtonDesign("View Available Shifts", width, "/shifts/view-shifts"),
+          // _ButtonDesign("View Available Shifts", width, "/shifts/view-shifts"),
 //              SizedBox(height:height/8),
         ]),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            title: Text('Business'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            title: Text('School'),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }
