@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(initialRoute: '/screens/wrapper', routes: {
         '/screens/wrapper': (context) => Wrapper(),
         '/home/availability': (context) => Availability(),
-        '/home/announcements': (context) => Announcement(),
+        '/home/announcements': (context) => Announcements(),
         '/home/schedule': (context) => Schedule(),
       }),
     );
