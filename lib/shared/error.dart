@@ -15,7 +15,7 @@ class _ErrorMessageState extends State<ErrorMessage> {
   Widget build(BuildContext context) {
     return Text(
       widget.errorMessage, 
-      style: errorText
+      style: errorTextStyle
     );
   }
 }

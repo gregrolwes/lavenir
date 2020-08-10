@@ -29,18 +29,21 @@ class _HomeState extends State<Home> {
     ];
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Lavenir'),
-        backgroundColor: headerColor,
+        title: Text(
+          "L'AVENIR",
+          style: logoTextStyle,  
+        ),
+        backgroundColor: mainColor,
         elevation: 0.0,
         actions: <Widget>[
           FlatButton.icon(
             icon: Icon(
               Icons.person,
-              color: headerIconColor,
+              color: headerTextColor,
             ),
-            label: Text('Logout', style: headerText),
+            label: Text('Logout', style: headerTextStyle),
             onPressed: () async {
               await _auth.signOut();
             },
@@ -66,7 +69,7 @@ class _HomeState extends State<Home> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: mainColor,
         onTap: _onItemTapped,
       ),
     );
