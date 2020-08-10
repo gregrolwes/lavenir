@@ -21,13 +21,13 @@ class _AuthenticateState extends State<Authenticate> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: headerColor,
+        backgroundColor: mainColor,
         elevation: 0.0,
         actions: <Widget>[
           FlatButton.icon(
             onPressed: () { setState(() => showSignIn = !showSignIn); }, 
-            icon: Icon(Icons.person, color: headerIconColor,), 
-            label: Text(_headerLabel, style: headerText),
+            icon: Icon(Icons.person, color: mainColor,), 
+            label: Text(_headerLabel, style: headerTextStyle),
           ),
         ],
       ),
