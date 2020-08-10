@@ -14,11 +14,11 @@ class _SubmitButtonState extends State<SubmitButton> {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      color: submitButtonColor,
+      color: mainColor,
       onPressed: () async { widget.submitFunction(); },
       child: Text(
         widget.label,
-        style: submitButtonText,
+        style: submitButtonTextStyle,
       )
     );
   }
