@@ -18,7 +18,8 @@ class _AvailabilityState extends State<Availability> {
       Sessions("4 -5 pm", true),
       Sessions("6 - 7 pm", false),
       Sessions("7 - 8 pm", false),
-      Sessions("8 - 9 pm", false)
+      Sessions("8 - 9 pm", false),
+      Sessions("9 - 10 pm", false)
     ],
     'Friday': [],
     'Saturday': [],
@@ -35,18 +36,33 @@ class _AvailabilityState extends State<Availability> {
     6: 'Sunday'
   };
 
+  List<String> days = <String>["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   int _index = 0;
   String s = "";
 
   Widget Card(String slot, bool availbl, int index) {
-    slot = (availbl) ? slot + "\n\nAvailable" : slot + "\n\nUnavailable";
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
       child: Container(
-          width: 300,
-          height: 150,
+          height: MediaQuery.of(context).size.height / 8,
           child: FlatButton(
-            child: Center(child: Text(slot)),
+            child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: slot,
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.height / 40)),
+                      TextSpan(
+                          text: (availbl) ? "\n\nAvailable" : "\n\nUnavailable",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.height / 38)),
+                    ])),
             color: (availbl) ? Colors.green : Colors.red,
             onPressed: () {
               setState(() {
@@ -62,18 +78,21 @@ class _AvailabilityState extends State<Availability> {
   Widget build(BuildContext context) {
     Widget _DayButton(String day, int ind) {
       return SizedBox(
-        height: 10,
-        width: 125,
+        width: MediaQuery.of(context).size.width / 4,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 3, 5, 0),
           child: FlatButton(
-              color: Colors.orange,
+              color: (ind == _index) ? Colors.orange[600] : Colors.orange[200],
               onPressed: () {
                 setState(() {
                   _index = ind;
                 });
               },
-              child: Text(day)),
+              child: Text(
+                day,
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height / 37),
+              )),
         ),
       );
     }
@@ -82,13 +101,14 @@ class _AvailabilityState extends State<Availability> {
       body: Column(
         children: [
           Expanded(
-              flex: 1,
+              flex: 2,
               child: Text(
                 indToDay[_index],
-                style: (TextStyle(fontSize: 40)),
+                style: (TextStyle(
+                    fontSize: MediaQuery.of(context).size.height / 20)),
               )),
           Expanded(
-              flex: 8,
+              flex: 16,
               child: ListView.builder(
                   itemCount: m[indToDay[_index]].length,
                   itemBuilder: (BuildContext ctxt, int index) {
@@ -96,12 +116,12 @@ class _AvailabilityState extends State<Availability> {
                         m[indToDay[_index]][index].availbl, index);
                   })),
           Expanded(
-              flex: 3,
+              flex: 4,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: m.keys.length,
+                  itemCount: days.length,
                   itemBuilder: (BuildContext ctxt, int index) {
-                    return _DayButton(indToDay[index], index);
+                    return _DayButton(days[index], index);
                   })),
         ],
       ),
