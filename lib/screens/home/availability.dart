@@ -38,11 +38,11 @@ class _AvailabilityState extends State<Availability> {
 
   List<String> days = <String>["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   int _index = 0;
-  String s = "";
 
-  Widget Card(String slot, bool availbl, int index) {
+  Widget card(String slot, bool availbl, int index) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+      padding: EdgeInsets.fromLTRB(
+          0, 0, 0, MediaQuery.of(context).size.height / 190),
       child: Container(
           height: MediaQuery.of(context).size.height / 8,
           child: FlatButton(
@@ -63,7 +63,7 @@ class _AvailabilityState extends State<Availability> {
                               fontSize:
                                   MediaQuery.of(context).size.height / 38)),
                     ])),
-            color: (availbl) ? Colors.green : Colors.red,
+            color: (availbl) ? Colors.greenAccent[700] : Colors.red[500],
             onPressed: () {
               setState(() {
                 availbl = (!availbl);
@@ -74,29 +74,36 @@ class _AvailabilityState extends State<Availability> {
     );
   }
 
+  Widget _dayButton(String day, int ind) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width / 4,
+      child: Padding(
+        // padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+        padding: (ind == _index)
+            ? EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height / 180,
+                MediaQuery.of(context).size.width / 80, 0)
+            : EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height / 80,
+                MediaQuery.of(context).size.width / 80, 0),
+        child: FlatButton(
+            color: (ind == _index) ? Colors.orange[700] : Colors.orange[200],
+            onPressed: () {
+              setState(() {
+                _index = ind;
+              });
+            },
+            child: Text(
+              day,
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height / 37,
+                color: (ind == _index) ? Colors.white : Colors.black87,
+              ),
+            )),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget _DayButton(String day, int ind) {
-      return SizedBox(
-        width: MediaQuery.of(context).size.width / 4,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 3, 5, 0),
-          child: FlatButton(
-              color: (ind == _index) ? Colors.orange[600] : Colors.orange[200],
-              onPressed: () {
-                setState(() {
-                  _index = ind;
-                });
-              },
-              child: Text(
-                day,
-                style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height / 37),
-              )),
-        ),
-      );
-    }
-
     return Scaffold(
       body: Column(
         children: [
@@ -112,7 +119,7 @@ class _AvailabilityState extends State<Availability> {
               child: ListView.builder(
                   itemCount: m[indToDay[_index]].length,
                   itemBuilder: (BuildContext ctxt, int index) {
-                    return Card(m[indToDay[_index]][index].slot,
+                    return card(m[indToDay[_index]][index].slot,
                         m[indToDay[_index]][index].availbl, index);
                   })),
           Expanded(
@@ -121,7 +128,7 @@ class _AvailabilityState extends State<Availability> {
                   scrollDirection: Axis.horizontal,
                   itemCount: days.length,
                   itemBuilder: (BuildContext ctxt, int index) {
-                    return _DayButton(days[index], index);
+                    return _dayButton(days[index], index);
                   })),
         ],
       ),
