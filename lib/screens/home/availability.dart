@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:lavenir/shared/constants.dart';
+
 class Availability extends StatefulWidget {
   @override
   _AvailabilityState createState() => _AvailabilityState();
@@ -39,38 +41,52 @@ class _AvailabilityState extends State<Availability> {
   List<String> days = <String>["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   int _index = 0;
 
-  Widget card(String slot, bool availbl, int index) {
+  Widget card(String slot, bool availble, int index) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
           0, 0, 0, MediaQuery.of(context).size.height / 190),
       child: Container(
-          height: MediaQuery.of(context).size.height / 8,
-          child: FlatButton(
-            child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                    style: DefaultTextStyle.of(context).style,
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: slot,
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.height / 40)),
-                      TextSpan(
-                          text: (availbl) ? "\n\nAvailable" : "\n\nUnavailable",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize:
-                                  MediaQuery.of(context).size.height / 38)),
-                    ])),
-            color: (availbl) ? Colors.greenAccent[700] : Colors.red[500],
-            onPressed: () {
-              setState(() {
-                availbl = (!availbl);
-                m[indToDay[_index]][index].availbl = availbl;
-              });
-            },
-          )),
+        margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+        height: MediaQuery.of(context).size.height / 8,
+        child: FlatButton(
+          child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: slot,
+                        style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height / 40)),
+                    TextSpan(
+                        text: (availble) ? "\n\nAvailable" : "\n\nUnavailable",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: (availble) ? Colors.greenAccent[700] : Colors.red[500],
+                            fontSize: MediaQuery.of(context).size.height / 38)
+                        ),
+                  ])),
+          onPressed: () {
+            setState(() {
+              availble = (!availble);
+              m[indToDay[_index]][index].availble = availble;
+            });
+          },
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: Offset(0, 0), // changes position of shadow
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -84,8 +100,10 @@ class _AvailabilityState extends State<Availability> {
                 MediaQuery.of(context).size.width / 80, 0)
             : EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height / 80,
                 MediaQuery.of(context).size.width / 80, 0),
-        child: FlatButton(
-            color: (ind == _index) ? Colors.orange[700] : Colors.orange[200],
+        child: Opacity(
+          opacity: (ind == _index) ? 1.0 : 0.7,
+          child: FlatButton(
+            color: mainColor,
             onPressed: () {
               setState(() {
                 _index = ind;
@@ -95,9 +113,11 @@ class _AvailabilityState extends State<Availability> {
               day,
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.height / 37,
-                color: (ind == _index) ? Colors.white : Colors.black87,
+                color: Colors.black87,
               ),
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -108,28 +128,42 @@ class _AvailabilityState extends State<Availability> {
       body: Column(
         children: [
           Expanded(
-              flex: 2,
-              child: Text(
-                indToDay[_index],
-                style: (TextStyle(
-                    fontSize: MediaQuery.of(context).size.height / 20)),
-              )),
+              flex: 3,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    indToDay[_index],
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height / 20),
+                  ),
+                ),
+              ),
+          ),
           Expanded(
-              flex: 16,
-              child: ListView.builder(
-                  itemCount: m[indToDay[_index]].length,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return card(m[indToDay[_index]][index].slot,
-                        m[indToDay[_index]][index].availbl, index);
-                  })),
+            flex: 16,
+            child: ListView.builder(
+              itemCount: m[indToDay[_index]].length,
+              itemBuilder: (BuildContext ctxt, int index) {
+                return card(m[indToDay[_index]][index].slot,
+                    m[indToDay[_index]][index].availble, index);
+              }
+            ),
+          ),
           Expanded(
-              flex: 4,
+            flex: 4,
+            child: Padding(
+              padding: EdgeInsets.all(5),
               child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: days.length,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return _dayButton(days[index], index);
-                  })),
+                scrollDirection: Axis.horizontal,
+                itemCount: days.length,
+                itemBuilder: (BuildContext ctxt, int index) {
+                  return _dayButton(days[index], index);
+                }
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -138,9 +172,9 @@ class _AvailabilityState extends State<Availability> {
 
 class Sessions {
   String slot = "";
-  bool availbl = false;
-  Sessions(String slot, bool availbl) {
+  bool availble = false;
+  Sessions(String slot, bool availble) {
     this.slot = slot;
-    this.availbl = availbl;
+    this.availble = availble;
   }
 }
