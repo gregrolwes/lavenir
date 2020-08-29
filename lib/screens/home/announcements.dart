@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'AnnouncementInfo.dart';
+import 'package:lavenir/models/announcement.dart';
 
 class Announcements extends StatelessWidget {
 
-  final List<AnnouncementInfo> announcementList = [
-    AnnouncementInfo("Club Meeting This Friday", "We'll be meeting this Friday at 3pm over Zoom. The Zoom link will be emailed to you on Friday morning.", DateTime.now()),
-    AnnouncementInfo("Week Schedule Posted", "The schedule for next week is posted on the website. ", DateTime.now()),
-    AnnouncementInfo("New Time Slots", "We would like to announce that there are new time slots available. We are hoping that some tutors will fill in for those times!", DateTime.now()),
-    AnnouncementInfo("Week Schedule Posted", "The schedule for next week is posted on the website. ", DateTime.now()),
+  final List<Announcement> announcementList = [
+    Announcement(),
   ];
 
   @override
@@ -43,7 +40,7 @@ class Announcements extends StatelessWidget {
               child: Row(
                   children: <Widget>[
                     Expanded(
-                      child: new Text(announcement.description)
+                      child: new Text(announcement.content)
                         ,),
                   ],),
             ),
