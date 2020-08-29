@@ -1,4 +1,4 @@
-import 'package:lavenir/screens/home/announcements.dart';
+import 'package:lavenir/screens/home/announcement_list.dart';
 
 class Announcement {
   

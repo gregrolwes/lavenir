@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:lavenir/screens/home/announcements.dart';
+import 'package:lavenir/screens/home/announcement_list.dart';
 import 'package:lavenir/screens/home/schedule.dart';
 import 'package:lavenir/screens/home/availability.dart';
 import 'package:lavenir/services/auth.dart';
@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
       Availability(),
-      Announcements(),
+      AnnouncementList(),
       Schedule()
     ];
 
