@@ -11,14 +11,14 @@ class DatabaseService {
     return snapshot.documents.map((doc) {
       return Announcement(
         title: doc.data['title'] ?? 'Announcement',
-        date: DateTime.parse(doc.data['content'].toDate().toString()) ?? DateTime.now(),
+        postDate: DateTime.parse(doc.data['postDate'].toDate().toString()) ?? DateTime.now(),
         content: doc.data['content'] ?? '',
       );
     }).toList();
   }
 
   // get brews stream
-  Stream<List<Announcement>> get brews {
+  Stream<List<Announcement>> get announcements {
     return announcementsCollection.snapshots()
       .map(_announcementListFromSnapshot);
   }

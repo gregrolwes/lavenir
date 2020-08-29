@@ -1,6 +1,6 @@
 import 'package:lavenir/models/user.dart';
 import 'package:lavenir/screens/home/availability.dart';
-import 'package:lavenir/screens/home/announcements.dart';
+import 'package:lavenir/screens/home/announcement_list.dart';
 import 'package:lavenir/screens/home/schedule.dart';
 import 'package:lavenir/screens/wrapper.dart';
 import 'package:lavenir/services/auth.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(initialRoute: '/screens/wrapper', routes: {
         '/screens/wrapper': (context) => Wrapper(),
         '/home/availability': (context) => Availability(),
-        '/home/announcements': (context) => Announcements(),
+        '/home/announcements': (context) => AnnouncementList(),
         '/home/schedule': (context) => Schedule(),
       }),
     );
