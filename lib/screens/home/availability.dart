@@ -20,7 +20,8 @@ class _AvailabilityState extends State<Availability> {
       Sessions("4 -5 pm", true),
       Sessions("6 - 7 pm", false),
       Sessions("7 - 8 pm", false),
-      Sessions("8 - 9 pm", false)
+      Sessions("8 - 9 pm", false),
+      Sessions("9 - 10 pm", false)
     ],
     'Friday': [],
     'Saturday': [],
@@ -37,35 +38,14 @@ class _AvailabilityState extends State<Availability> {
     6: 'Sunday'
   };
 
+  List<String> days = <String>["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   int _index = 0;
-  String s = "";
 
-<<<<<<< Updated upstream
-  Widget Card(String slot, bool availbl, int index) {
-    slot = (availbl) ? slot + "\n\nAvailable" : slot + "\n\nUnavailable";
-=======
   Widget card(String slot, bool availble, int index) {
->>>>>>> Stashed changes
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+      padding: EdgeInsets.fromLTRB(
+          0, 0, 0, MediaQuery.of(context).size.height / 190),
       child: Container(
-<<<<<<< Updated upstream
-          width: 300,
-          height: 150,
-          child: FlatButton(
-            child: Center(child: Text(slot)),
-            color: (availbl) ? Colors.green : Colors.red,
-            onPressed: () {
-              setState(() {
-                availbl = (!availbl);
-                m[indToDay[_index]][index].availbl = availbl;
-              });
-            },
-          )),
-    );
-  }
-
-=======
         margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
         height: MediaQuery.of(context).size.height / 8,
         child: FlatButton(
@@ -142,54 +122,12 @@ class _AvailabilityState extends State<Availability> {
     );
   }
 
->>>>>>> Stashed changes
   @override
   Widget build(BuildContext context) {
-    Widget _DayButton(String day, int ind) {
-      return SizedBox(
-        height: 10,
-        width: 125,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 3, 5, 0),
-          child: FlatButton(
-              color: Colors.orange,
-              onPressed: () {
-                setState(() {
-                  _index = ind;
-                });
-              },
-              child: Text(day)),
-        ),
-      );
-    }
-
     return Scaffold(
       body: Column(
         children: [
           Expanded(
-<<<<<<< Updated upstream
-              flex: 1,
-              child: Text(
-                indToDay[_index],
-                style: (TextStyle(fontSize: 40)),
-              )),
-          Expanded(
-              flex: 8,
-              child: ListView.builder(
-                  itemCount: m[indToDay[_index]].length,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return Card(m[indToDay[_index]][index].slot,
-                        m[indToDay[_index]][index].availbl, index);
-                  })),
-          Expanded(
-              flex: 3,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: m.keys.length,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return _DayButton(indToDay[index], index);
-                  })),
-=======
               flex: 3,
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -226,7 +164,6 @@ class _AvailabilityState extends State<Availability> {
               ),
             ),
           ),
->>>>>>> Stashed changes
         ],
       ),
     );
