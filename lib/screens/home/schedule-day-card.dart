@@ -58,11 +58,12 @@ class _DayCardState extends State<DayCard> {
     );
   }
 
-  Widget Day(String day, Map names, int slots) {
+  Widget Day(String day, List<Session> sessions) {
     List<Widget> vals = [];
     vals.add(Text("$day", style: TextStyle(fontSize: setHeight(25))));
-    for (int i = 0; i < names.values.length; i++) {
-      vals.add(_tile(names.keys.elementAt(i), names.values.elementAt(i), 2));
+    for (int i = 0; i < sessions.length; i++) {
+      vals.add(
+          _tile(sessions[i].time, sessions[i].students, sessions[i].openSlots));
     }
     return Container(
         child: Column(
@@ -70,26 +71,50 @@ class _DayCardState extends State<DayCard> {
     ));
   }
 
+  Map dayList = {
+    "Monday": [
+      Session("8 - 9", ["James Smith", "Michael Smith", "Robert Smith"], 2),
+      Session("7 - 8", ["Maria Garcia", "David Smith"], 3)
+    ],
+    "Tuesday": [
+      Session("8 - 9", ["Maria Martinez", "James Johnson"], 3),
+      Session("7 - 9", ["Maria Rodriguez", "Mary Smith"], 5)
+    ],
+    "Wednesday": [
+      Session("8 - 9", ["Maria Martinez", "James Johnson"], 3),
+      Session("7 - 9", ["Maria Rodriguez", "Mary Smith"], 5),
+      Session("7 - 9", ["Maria Rodriguez", "Mary Smith"], 5),
+      Session("8 - 9", ["Maria Martinez", "James Johnson"], 3)
+    ],
+    "Thursday": [
+      Session("8 - 9", ["Maria Martinez", "James Johnson"], 3),
+      Session("7 - 9", ["Maria Rodriguez", "Mary Smith"], 5)
+    ],
+    "Friday": [
+      Session("8 - 9", ["Maria Martinez", "James Johnson"], 3),
+    ],
+  };
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        Day(
-            "Monday",
-            {
-              "5 - 6": ["James Smith", "Michael Smith", "Robert Smith"],
-              "7 - 8": ["Maria Garcia", "David Smith"]
-            },
-            2),
-        Day(
-            "Tuesday",
-            {
-              "8 - 9": ["Maria Martinez", "James Johnson"],
-              "7 - 9": ["Maria Rodriguez", "Mary Smith"]
-            },
-            2)
-      ],
-    );
+    return ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: dayList.length,
+        itemBuilder: (BuildContext context, int index) {
+          print(dayList.keys.elementAt(index).toString());
+          return Day(dayList.keys.elementAt(index).toString(),
+              dayList.values.elementAt(index) as List);
+        });
+  }
+}
+
+class Session {
+  String time;
+  List<String> students;
+  int openSlots;
+
+  Session(String time, List<String> students, int openSlots) {
+    this.time = time;
+    this.students = students;
+    this.openSlots = openSlots;
   }
 }
