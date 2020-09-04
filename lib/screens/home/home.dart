@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text(
           "L'AVENIR",
-          style: logoTextStyle,  
+          style: logoTextStyle,
         ),
         backgroundColor: mainColor,
         elevation: 0.0,
