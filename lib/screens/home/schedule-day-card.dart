@@ -15,7 +15,7 @@ class _DayCardState extends State<DayCard> {
     for (int i = 0; i < names.length; i++) {
       _names = _names + names[i] + "\n";
     }
-    _names = _names.substring(0, _names.length - 2);
+    _names = _names.substring(0, _names.length - 1);
     return Padding(
       padding: EdgeInsets.all(setHeight(300)),
       child: Card(
@@ -35,7 +35,7 @@ class _DayCardState extends State<DayCard> {
                     flex: 2,
                     child: Text(time,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: setHeight(25))),
+                        style: TextStyle(fontSize: setHeight(27))),
                   ),
                   Expanded(
                       flex: 5,
@@ -73,25 +73,26 @@ class _DayCardState extends State<DayCard> {
 
   Map dayList = {
     "Monday": [
-      Session("8 - 9", ["James Smith", "Michael Smith", "Robert Smith"], 2),
-      Session("7 - 8", ["Maria Garcia", "David Smith"], 3)
+      Session(
+          "8 - 9\np.m.", ["James Smith", "Michael Smith", "Robert Smith"], 2),
+      Session("7 - 8\np.m.", ["Maria Garcia", "David Smith"], 3)
     ],
     "Tuesday": [
-      Session("8 - 9", ["Maria Martinez", "James Johnson"], 3),
-      Session("7 - 9", ["Maria Rodriguez", "Mary Smith"], 5)
+      Session("8 - 9\np.m.", ["Maria Martinez", "James Johnson"], 3),
+      Session("7 - 9\np.m.", ["Maria Rodriguez", "Mary Smith"], 5)
     ],
     "Wednesday": [
-      Session("8 - 9", ["Maria Martinez", "James Johnson"], 3),
-      Session("7 - 9", ["Maria Rodriguez", "Mary Smith"], 5),
-      Session("7 - 9", ["Maria Rodriguez", "Mary Smith"], 5),
-      Session("8 - 9", ["Maria Martinez", "James Johnson"], 3)
+      Session("8 - 9\np.m.", ["Maria Martinez", "James Johnson"], 3),
+      Session("7 - 9\np.m.", ["Maria Rodriguez", "Mary Smith"], 5),
+      Session("7 - 9\np.m.", ["Maria Rodriguez", "Mary Smith"], 5),
+      Session("8 - 9\np.m.", ["Maria Martinez", "James Johnson"], 3)
     ],
     "Thursday": [
-      Session("8 - 9", ["Maria Martinez", "James Johnson"], 3),
-      Session("7 - 9", ["Maria Rodriguez", "Mary Smith"], 5)
+      Session("8 - 9\np.m.", ["Maria Martinez", "James Johnson"], 3),
+      Session("7 - 9\np.m.", ["Maria Rodriguez", "Mary Smith"], 5)
     ],
     "Friday": [
-      Session("8 - 9", ["Maria Martinez", "James Johnson"], 3),
+      Session("8 - 9\np.m.", ["Maria Martinez", "James Johnson"], 3),
     ],
   };
   @override
