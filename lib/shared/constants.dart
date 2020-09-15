@@ -24,3 +24,18 @@ const emailInputDecoration = InputDecoration(
 const passwordInputDecoration = InputDecoration(
   hintText: 'Password',
 );
+
+final boxShadow = BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: Offset(0, 0), // changes position of shadow
+            ),
+          ],
+        );
+
+const cardMargin = EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5);

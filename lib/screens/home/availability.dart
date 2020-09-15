@@ -46,7 +46,7 @@ class _AvailabilityState extends State<Availability> {
       padding: EdgeInsets.fromLTRB(
           0, 0, 0, MediaQuery.of(context).size.height / 190),
       child: Container(
-        margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+        margin: cardMargin,
         height: MediaQuery.of(context).size.height / 8,
         child: FlatButton(
           child: RichText(
@@ -74,18 +74,7 @@ class _AvailabilityState extends State<Availability> {
             });
           },
         ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: Offset(0, 0), // changes position of shadow
-            ),
-          ],
-        ),
+        decoration: boxShadow
       ),
     );
   }

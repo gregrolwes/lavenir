@@ -1,5 +1,3 @@
-import 'package:lavenir/screens/home/announcement_list.dart';
-
 class Announcement {
   
   final String title;
