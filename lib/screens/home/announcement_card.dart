@@ -15,7 +15,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+      margin: cardMargin,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

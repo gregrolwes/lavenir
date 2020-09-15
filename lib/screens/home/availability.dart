@@ -46,7 +46,7 @@ class _AvailabilityState extends State<Availability> {
       padding: EdgeInsets.fromLTRB(
           0, 0, 0, MediaQuery.of(context).size.height / 190),
       child: Container(
-        margin: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+        margin: cardMargin,
         height: MediaQuery.of(context).size.height / 8,
         child: FlatButton(
           child: RichText(
