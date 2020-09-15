@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lavenir/models/announcement.dart';
+import 'package:lavenir/shared/constants.dart';
 
 class AnnouncementCard extends StatefulWidget {
   final Announcement announcement;
@@ -48,18 +49,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
           ]
         ),
       ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 3,
-            blurRadius: 5,
-            offset: Offset(0, 0), // changes position of shadow
-          ),
-        ],
-      ),
+      decoration: boxShadow
     );
   }
 }
