@@ -58,7 +58,7 @@ class _DayCardState extends State<DayCard> {
     );
   }
 
-  Widget Day(String day, List<Session> sessions) {
+  Widget day(String day, List<Session> sessions) {
     List<Widget> vals = [];
     vals.add(Text("$day", style: TextStyle(fontSize: setHeight(25))));
     for (int i = 0; i < sessions.length; i++) {
@@ -101,8 +101,7 @@ class _DayCardState extends State<DayCard> {
         scrollDirection: Axis.vertical,
         itemCount: dayList.length,
         itemBuilder: (BuildContext context, int index) {
-          print(dayList.keys.elementAt(index).toString());
-          return Day(dayList.keys.elementAt(index).toString(),
+          return day(dayList.keys.elementAt(index).toString(),
               dayList.values.elementAt(index) as List);
         });
   }
