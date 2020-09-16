@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter/material.dart';
 import 'package:lavenir/screens/home/announcements.dart';
 import 'package:lavenir/screens/home/schedule.dart';
 import 'package:lavenir/screens/home/availability.dart';
 import 'package:lavenir/services/auth.dart';
-import 'package:flutter/material.dart';
 import 'package:lavenir/shared/constants.dart';
 
 class Home extends StatefulWidget {
@@ -33,17 +34,17 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text(
           "L'AVENIR",
-          style: logoTextStyle,  
+          style: logoTextStyle,
         ),
         backgroundColor: mainColor,
         elevation: 0.0,
         actions: <Widget>[
-          FlatButton.icon(
+          IconButton(
             icon: Icon(
-              Icons.person,
+              Ionicons.ios_log_out,
               color: headerTextColor,
             ),
-            label: Text('Logout', style: headerTextStyle),
+            tooltip: 'Logout',
             onPressed: () async {
               await _auth.signOut();
             },
