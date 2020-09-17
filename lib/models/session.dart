@@ -1,11 +1,7 @@
 class Session {
-  String time;
-  List<String> students;
-  int openSlots;
+  final String time;
+  final List<dynamic> tutors;
+  final int openSlots;
 
-  Session(String time, List<String> students, int openSlots) {
-    this.time = time;
-    this.students = students;
-    this.openSlots = openSlots;
-  }
+  Session({this.time, this.tutors, this.openSlots});
 }
