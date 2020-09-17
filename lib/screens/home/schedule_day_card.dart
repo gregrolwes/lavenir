@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lavenir/models/session.dart';
 
 class DayCard extends StatefulWidget {
   @override
@@ -104,17 +105,5 @@ class _DayCardState extends State<DayCard> {
           return day(dayList.keys.elementAt(index).toString(),
               dayList.values.elementAt(index) as List);
         });
-  }
-}
-
-class Session {
-  String time;
-  List<String> students;
-  int openSlots;
-
-  Session(String time, List<String> students, int openSlots) {
-    this.time = time;
-    this.students = students;
-    this.openSlots = openSlots;
   }
 }
