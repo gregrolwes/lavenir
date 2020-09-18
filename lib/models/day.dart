@@ -6,3 +6,10 @@ class Day {
 
   Day({this.day, this.sessions});
 }
+
+class AvailabilityDay {
+  final String day;
+  final List<AvailabilitySession> availabilitySessions;
+
+  AvailabilityDay({this.day, this.availabilitySessions});
+}
