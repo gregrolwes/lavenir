@@ -123,9 +123,9 @@ class _AvailabilityCardState extends State<AvailabilityCard> {
   Widget build(BuildContext context) {
     final avDay = Provider.of<List<AvailabilityData>>(context);
 
-    avDay.forEach((av) {
-      print(av.slots);
-    });
+    // avDay.forEach((av) {
+    //   print(av.slots);
+    // });
     return Scaffold(
       body: Column(
         children: [

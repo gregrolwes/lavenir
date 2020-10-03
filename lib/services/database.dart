@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lavenir/models/announcement.dart';
 import 'package:lavenir/models/day.dart';
 import 'package:lavenir/models/session.dart';
-import 'package:lavenir/models/user.dart';
 import 'package:lavenir/models/availability_model.dart';
+import 'package:provider/provider.dart';
 
 class DatabaseService {
   final String uid;
@@ -15,11 +15,35 @@ class DatabaseService {
       Firestore.instance.collection('schedule');
   final CollectionReference brewCollection =
       Firestore.instance.collection('availability');
+  final CollectionReference userData =
+      Firestore.instance.collection('user_data');
 
-  Future<void> updateUserData(List<AvailabilityDay> data) async {
-    return await brewCollection
-        .document(uid)
-        .setData({'availabilityData': data});
+  Future updateUserData() async {
+    String dayData;
+    List sessionData = new List();
+    Map tempMap = new Map();
+    await brewCollection.snapshots().forEach((element) async {
+      for (int i = 0; i < element.documents.length; i++) {
+        List tempList = new List();
+        dayData = "";
+        sessionData.clear();
+        String slot;
+
+        dayData = await element.documents.elementAt(i).data['day'];
+        tempList = await element.documents.elementAt(i).data['sessions'];
+
+        for (int j = 0; j < tempList.length; j++) {
+          slot = tempList[j];
+          Map slotMap = new Map();
+          sessionData.add({slot: false});
+        }
+
+        tempMap[dayData] = sessionData;
+        await userData.document(uid).setData({
+          dayData: tempMap[dayData] ?? [],
+        }, merge: true);
+      }
+    });
   }
 
   List<Announcement> _announcementListFromSnapshot(QuerySnapshot snapshot) {
@@ -62,28 +86,11 @@ class DatabaseService {
     return scheduleCollection.snapshots().map(_dayListFromSnapshot);
   }
 
-  // List<AvailabilitySession> _availabilitySessionListFromJSON(List rawSessions) {
-  //   return rawSessions.map((session) {
-  //     return AvailabilitySession(
-  //         time: session['time'] ?? '', availability: session['time'] ?? false);
-  //   }).toList();
-  // }
-
-  // List<AvailabilityDay> _availabilityDayListFromSnapshot(
-  //     QuerySnapshot snapshot) {
-  //   return snapshot.documents.map((doc) {
-  //     return AvailabilityDay(
-  //       day: doc.data['day'] ?? '',
-  //       availabilitySessions: _sessionListFromJSON(doc.data['sessions']) ??
-  //           List<AvailabilitySession>(),
-  //     );
-  //   }).toList();
-  // }
   List<AvailabilityData> _availabilitySessionListFromJSON(
       QuerySnapshot snapshot) {
     List<AvailabilityData> temp = new List();
     for (var doc in snapshot.documents) {
-      print(doc);
+      // print(doc);
       temp.add(
           AvailabilityData(slots: doc.data['sessions'], day: doc.data['day']));
     }
