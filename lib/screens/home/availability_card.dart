@@ -105,6 +105,7 @@ class _AvailabilityCardState extends State<AvailabilityCard> {
                         setState(() {
                           availble = (!availble);
                           m[indToDay[_index]][index].availble = availble;
+                          DatabaseService(uid: userData.uid).updateUserData(m);
                         });
                       },
                     ),

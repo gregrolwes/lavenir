@@ -18,16 +18,17 @@ class DatabaseService {
       Firestore.instance.collection('announcements');
   final CollectionReference scheduleCollection =
       Firestore.instance.collection('schedule');
-  final CollectionReference brewCollection =
+  final CollectionReference availabilityData =
       Firestore.instance.collection('availability');
   final CollectionReference userData =
       Firestore.instance.collection('user_data');
 
-  Future updateUserData() async {
+  /// Gets the slots from firestore and sets all slots to false when a new user registers
+  Future instantiateUserData() async {
     String dayData;
     List sessionData = new List();
     Map tempMap = new Map();
-    await brewCollection.snapshots().forEach((element) async {
+    await availabilityData.snapshots().forEach((element) async {
       for (int i = 0; i < element.documents.length; i++) {
         List tempList = new List();
         dayData = "";
@@ -39,10 +40,8 @@ class DatabaseService {
 
         for (int j = 0; j < tempList.length; j++) {
           slot = tempList[j];
-          Map slotMap = new Map();
           sessionData.add({slot: false});
         }
-
         tempMap[dayData] = sessionData;
         await userData.document(uid).setData({
           dayData: tempMap[dayData] ?? [],
@@ -51,41 +50,33 @@ class DatabaseService {
     });
   }
 
-  List<AvailabilitySession> _formatUserData(QuerySnapshot snapshot) {
-    List<AvailabilitySession> temp = new List();
-    Future<bool> compareID(String id) async {
-      FirebaseUser user = await FirebaseAuth.instance.currentUser();
-      if (user.uid == id) {
-        return true;
+  Future updateUserData(Map data) async {
+    // Data comes in form {Day:[Sessions(), Sessions()], Day:[Sessions()]}
+    // need to convert to {Day:[{time:bool}, {time:bool}], Day[{},{}]}
+    for (var key in data.keys) {
+      List tempList = new List();
+      for (int i = 0; i < data[key].length; i++) {
+        String time = data[key].elementAt(i).slot;
+        bool availability = data[key].elementAt(i).availble;
+        tempList.add({time: availability});
       }
-      return false;
+      await userData.document(uid).setData({
+        key: tempList ?? [],
+      }, merge: true);
     }
-
-    return temp;
   }
 
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    //print(snapshot.data);
-    List Monday = new List();
-    List MondayWSessions = new List();
-    Monday = snapshot['Monday'];
     Map tempMap = new Map();
     for (var key in snapshot.data.keys) {
       List tempList = new List();
       for (int i = 0; i < snapshot[key].length; i++) {
-        String s = snapshot[key].elementAt(i).keys.elementAt(0);
-        bool b = snapshot[key].elementAt(i).values.elementAt(0);
-        //print(snapshot[key].elementAt(i));
-        tempList.add(Sessions(s, b));
+        String time = snapshot[key].elementAt(i).keys.elementAt(0);
+        bool availability = snapshot[key].elementAt(i).values.elementAt(0);
+        tempList.add(Sessions(time, availability));
       }
       tempMap[key] = tempList;
     }
-    // print(Monday[i].keys.elementAt(0));
-    // print(Monday[i].values.elementAt(0));
-    // MondayWSessions.add(
-    //     Sessions(Monday[i].keys.elementAt(0), Monday[i].values.elementAt(0)));
-    // }
-    // print(MondayWSessions);
     return UserData(uid: uid, availabilityData: tempMap);
   }
 
@@ -146,6 +137,6 @@ class DatabaseService {
   }
 
   Stream<List<AvailabilityData>> get availability {
-    return brewCollection.snapshots().map(_availabilitySessionListFromJSON);
+    return availabilityData.snapshots().map(_availabilitySessionListFromJSON);
   }
 }
