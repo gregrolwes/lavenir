@@ -1,8 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lavenir/models/announcement.dart';
 import 'package:lavenir/models/day.dart';
 import 'package:lavenir/models/session.dart';
 import 'package:lavenir/models/availability_model.dart';
+import 'package:lavenir/models/user.dart';
+import 'package:lavenir/screens/home/availability.dart';
+import 'package:lavenir/screens/home/availability_card.dart';
+import 'package:lavenir/services/auth.dart';
 import 'package:provider/provider.dart';
 
 class DatabaseService {
@@ -44,6 +49,49 @@ class DatabaseService {
         }, merge: true);
       }
     });
+  }
+
+  List<AvailabilitySession> _formatUserData(QuerySnapshot snapshot) {
+    List<AvailabilitySession> temp = new List();
+    Future<bool> compareID(String id) async {
+      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+      if (user.uid == id) {
+        return true;
+      }
+      return false;
+    }
+
+    return temp;
+  }
+
+  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    //print(snapshot.data);
+    List Monday = new List();
+    List MondayWSessions = new List();
+    Monday = snapshot['Monday'];
+    Map tempMap = new Map();
+    for (var key in snapshot.data.keys) {
+      List tempList = new List();
+      for (int i = 0; i < snapshot[key].length; i++) {
+        String s = snapshot[key].elementAt(i).keys.elementAt(0);
+        bool b = snapshot[key].elementAt(i).values.elementAt(0);
+        //print(snapshot[key].elementAt(i));
+        tempList.add(Sessions(s, b));
+      }
+      tempMap[key] = tempList;
+    }
+    // print(Monday[i].keys.elementAt(0));
+    // print(Monday[i].values.elementAt(0));
+    // MondayWSessions.add(
+    //     Sessions(Monday[i].keys.elementAt(0), Monday[i].values.elementAt(0)));
+    // }
+    // print(MondayWSessions);
+    return UserData(uid: uid, availabilityData: tempMap);
+  }
+
+  // get user doc stream
+  Stream<UserData> get user_data {
+    return userData.document(uid).snapshots().map(_userDataFromSnapshot);
   }
 
   List<Announcement> _announcementListFromSnapshot(QuerySnapshot snapshot) {

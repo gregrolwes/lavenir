@@ -1,4 +1,5 @@
 import 'package:lavenir/models/day.dart';
+import 'package:lavenir/models/session.dart';
 
 class User {
   final String uid;
@@ -8,7 +9,7 @@ class User {
 
 class UserData {
   final String uid;
-  final List<AvailabilityDay> availabilityData;
+  final Map availabilityData;
 
   UserData({this.uid, this.availabilityData});
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lavenir/models/availability_model.dart';
 import 'package:lavenir/models/day.dart';
+import 'package:lavenir/models/session.dart';
 import 'package:lavenir/screens/home/availability_card.dart';
 
 import 'package:lavenir/shared/constants.dart';
@@ -16,9 +17,6 @@ class Availability extends StatefulWidget {
 class _AvailabilityState extends State<Availability> {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<AvailabilityData>>.value(
-      value: DatabaseService().availability,
-      child: AvailabilityCard(),
-    );
+    return AvailabilityCard();
   }
 }
