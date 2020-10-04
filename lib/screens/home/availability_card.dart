@@ -1,16 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:lavenir/models/availability_model.dart';
-import 'package:lavenir/models/day.dart';
-import 'package:lavenir/models/session.dart';
 import 'package:lavenir/models/user.dart';
 import 'package:lavenir/services/database.dart';
-
 import 'package:lavenir/shared/constants.dart';
-import 'package:lavenir/services/database.dart';
 import 'package:lavenir/shared/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AvailabilityCard extends StatefulWidget {
   @override
@@ -18,26 +11,6 @@ class AvailabilityCard extends StatefulWidget {
 }
 
 class _AvailabilityCardState extends State<AvailabilityCard> {
-  // Map m = {
-  //   'Monday': [
-  //     Sessions("4 - 5 pm", true),
-  //     Sessions("5 - 6 pm", false),
-  //     Sessions("6 - 7 pm", true)
-  //   ],
-  //   'Tuesday': [Sessions("3 - 4 pm", true), Sessions("6 - 7 pm", false)],
-  //   'Wednesday': [Sessions("4 - 5 pm", true), Sessions("6 - 7 pm", false)],
-  //   'Thursday': [
-  //     Sessions("4 -5 pm", true),
-  //     Sessions("6 - 7 pm", false),
-  //     Sessions("7 - 8 pm", false),
-  //     Sessions("8 - 9 pm", false),
-  //     Sessions("9 - 10 pm", false)
-  //   ],
-  //   'Friday': [],
-  //   'Saturday': [],
-  //   'Sunday': []
-  // };
-
   Map indToDay = {
     0: "Monday",
     1: "Tuesday",
@@ -53,19 +26,14 @@ class _AvailabilityCardState extends State<AvailabilityCard> {
 
   @override
   Widget build(BuildContext context) {
-    //final avDay = Provider.of<List<AvailabilitySession>>(context);
     User user = Provider.of<User>(context);
-    // avDay.forEach((av) {
-    //   print(av.slots);
-    // });
+
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).user_data,
         builder: (context, snapshot) {
           UserData userData = snapshot.data;
-          //print(snapshot);
+
           if (snapshot.hasData) {
-            //print(userData.uid);
-            print(userData.availabilityData);
             Map m = new Map();
             m = userData.availabilityData;
 
@@ -151,6 +119,7 @@ class _AvailabilityCardState extends State<AvailabilityCard> {
               );
             }
 
+            //DatabaseService(uid: userData.uid).syncUserData(m);
             return Scaffold(
               body: Column(
                 children: [

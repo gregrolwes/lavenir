@@ -5,10 +5,3 @@ class Session {
 
   Session({this.time, this.tutors, this.openSlots});
 }
-
-class AvailabilitySession {
-  final String time;
-  final bool availability;
-
-  AvailabilitySession({this.time, this.availability});
-}

@@ -1,6 +1,3 @@
-import 'package:lavenir/models/day.dart';
-import 'package:lavenir/models/session.dart';
-
 class User {
   final String uid;
 
