@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lavenir/models/announcement.dart';
@@ -25,7 +25,7 @@ class DatabaseService {
     String dayData;
     List sessionData = new List();
     Map tempMap = new Map();
-    await availabilityData.snapshots().forEach((element) async {
+    availabilityData.snapshots().listen((element) async {
       for (int i = 0; i < element.documents.length; i++) {
         List tempList = new List();
         dayData = "";
@@ -45,6 +45,7 @@ class DatabaseService {
         }, merge: true);
       }
     });
+    //Future.delayed(const Duration(seconds: 5), () => subscription.cancel());
   }
 
   Future updateUserData(Map data) async {
@@ -63,64 +64,52 @@ class DatabaseService {
     }
   }
 
-  Future<void> syncUserData(Map data) async {
+  syncUserData(Map data) async {
     // Data comes in form {Day:[Sessions(), Sessions()], Day:[Sessions()]}
     // need to convert to {Day:[{time:bool}, {time:bool}], Day[{},{}]}
-    
-        availabilityData.snapshots().forEach((element) async {
-        print("Syncing Data");
-        for (int i = 0; i < element.documents.length; i++) {
-          List sessionData = new List();
-          String dayData;
-          String slot;
+    bool done = false;
 
-          dayData = await element.documents.elementAt(i).data['day'];
-          sessionData = await element.documents.elementAt(i).data['sessions'];
-          print("1");
-          for (int j = 0; j < sessionData.length; j++) {
-            slot = sessionData[j]; // slot in firestore
-            bool inApp = false; // assume  FSslot not in app data
-            for (int k = 0; k < data[dayData].length; k++) {
-              if (data[dayData].elementAt(k).slot == slot) {
-                // if that element is in fire store, dont do anything, else add to app
-                //print(slot);
-                inApp = true;
-              }
-            }
-            if (!inApp) {
-              data[dayData].add(Sessions(slot, false));
-            }
-          }
-          print("2");
+    StreamSubscription subscription =
+        availabilityData.snapshots().listen((element) async {
+      for (int i = 0; i < element.documents.length; i++) {
+        List sessionData = new List();
+        String dayData;
+        String slot;
+
+        dayData = await element.documents.elementAt(i).data['day'];
+        sessionData = await element.documents.elementAt(i).data['sessions'];
+        for (int j = 0; j < sessionData.length; j++) {
+          slot = sessionData[j]; // slot in firestore
+          bool inApp = false; // assume  FSslot not in app data
           for (int k = 0; k < data[dayData].length; k++) {
-            String appSlot = data[dayData].elementAt(k).slot;
-            bool inFS = false;
-            for (int j = 0; j < sessionData.length; j++) {
-              if (sessionData[j] == appSlot) {
-                // if that element is in fire store, dont do anything, else add to app
-                inFS = true;
-              }
-            }
-            if (!inFS) {
-              data[dayData].removeAt(k);
+            if (data[dayData].elementAt(k).slot == slot) {
+              // if that element is in fire store, dont do anything, else add to app
+              inApp = true;
             }
           }
-
-          // print(await element.documents.elementAt(i).data['sessions']);
-          // data[dayData].forEach((e) {
-          //   print(e.slot);
-          // });
-
-
-
+          if (!inApp) {
+            data[dayData].add(Sessions(slot, false));
+          }
         }
 
-        await updateUserData(data);
-
-
+        for (int k = 0; k < data[dayData].length; k++) {
+          String appSlot = data[dayData].elementAt(k).slot;
+          bool inFS = false;
+          for (int j = 0; j < sessionData.length; j++) {
+            if (sessionData[j] == appSlot) {
+              // if that element is in fire store, dont do anything, else add to app
+              inFS = true;
+            }
+          }
+          if (!inFS) {
+            data[dayData].removeAt(k);
+          }
+        }
       }
-      );
-
+      await updateUserData(data);
+      done = true;
+    });
+    Future.delayed(const Duration(seconds: 5), () => subscription.cancel());
   }
 
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
@@ -142,7 +131,6 @@ class DatabaseService {
 
   // get user doc stream
   Stream<UserData> get user_data {
-    print("Getting data");
     return userData.document(uid).snapshots().map(_userDataFromSnapshot);
   }
 

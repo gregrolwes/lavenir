@@ -36,16 +36,12 @@ class _AvailabilityCardState extends State<AvailabilityCard> {
           if (snapshot.hasData) {
             Map m = new Map();
             m = userData.availabilityData;
-            Future<Null> handleRefresh()async{
-              print("Refresh start");
-
+            Future<Null> handleRefresh() async {
               await DatabaseService(uid: user.uid).syncUserData(m);
-              print("Refreshed");
               return null;
             }
 
             Widget card(String slot, bool availble, int index) {
-
               return Padding(
                 padding: EdgeInsets.fromLTRB(
                     0, 0, 0, MediaQuery.of(context).size.height / 190),
@@ -131,62 +127,49 @@ class _AvailabilityCardState extends State<AvailabilityCard> {
             }
 
             return Scaffold(
-              body: 
-              new RefreshIndicator(
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.all(15),
-                          child: Text(
-                            indToDay[_index],
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.height / 20),
-                          ),
+                body: new RefreshIndicator(
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Text(
+                          indToDay[_index],
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.height / 20),
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 16,
+                  ),
+                  Expanded(
+                    flex: 16,
+                    child: ListView.builder(
+                        itemCount: m[indToDay[_index]].length,
+                        itemBuilder: (BuildContext ctxt, int index) {
+                          return card(m[indToDay[_index]][index].slot,
+                              m[indToDay[_index]][index].availble, index);
+                        }),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
                       child: ListView.builder(
-                          itemCount: m[indToDay[_index]].length,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: days.length,
                           itemBuilder: (BuildContext ctxt, int index) {
-                            return card(m[indToDay[_index]][index].slot,
-                                m[indToDay[_index]][index].availble, index);
+                            return _dayButton(days[index], index);
                           }),
                     ),
-                    Expanded(
-                      flex: 4,
-                      child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: days.length,
-                            itemBuilder: (BuildContext ctxt, int index) {
-                              return _dayButton(days[index], index);
-                            }),
-                      ),
-                    ),
-                  ],
-                ),
-                onRefresh: handleRefresh,
+                  ),
+                ],
               ),
-
-              floatingActionButton: FloatingActionButton(
-                onPressed: () async {
-
-                  setState(() {
-
-                  });
-                },
-                child: Icon(Icons.navigation),
-                backgroundColor: Colors.green,
-              ),
-            );
+              onRefresh: handleRefresh,
+            ));
           } else {
             return Loading();
           }
