@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lavenir/models/announcement.dart';
 import 'package:lavenir/models/day.dart';
@@ -61,65 +63,64 @@ class DatabaseService {
     }
   }
 
-  Future syncUserData(Map data) async {
+  Future<void> syncUserData(Map data) async {
     // Data comes in form {Day:[Sessions(), Sessions()], Day:[Sessions()]}
     // need to convert to {Day:[{time:bool}, {time:bool}], Day[{},{}]}
+    
+        availabilityData.snapshots().forEach((element) async {
+        print("Syncing Data");
+        for (int i = 0; i < element.documents.length; i++) {
+          List sessionData = new List();
+          String dayData;
+          String slot;
 
-    await availabilityData.snapshots().forEach((element) async {
-      for (int i = 0; i < element.documents.length; i++) {
-        List sessionData = new List();
-        String dayData;
-        String slot;
-
-        dayData = await element.documents.elementAt(i).data['day'];
-        sessionData = await element.documents.elementAt(i).data['sessions'];
-        print(dayData);
-
-        for (int j = 0; j < sessionData.length; j++) {
-          slot = sessionData[j]; // slot in firestore
-          bool inApp = false; // assume  FSslot not in app data
-          for (int k = 0; k < data[dayData].length; k++) {
-            if (data[dayData].elementAt(k).slot == slot) {
-              // if that element is in fire store, dont do anything, else add to app
-              //print(slot);
-              inApp = true;
-            }
-          }
-          if (!inApp) {
-            data[dayData].add(Sessions(slot, false));
-          }
-        }
-
-        for (int k = 0; k < data[dayData].length; k++) {
-          String appSlot = data[dayData].elementAt(k).slot;
-          bool inFS = false;
+          dayData = await element.documents.elementAt(i).data['day'];
+          sessionData = await element.documents.elementAt(i).data['sessions'];
+          print("1");
           for (int j = 0; j < sessionData.length; j++) {
-            if (sessionData[j] == appSlot) {
-              // if that element is in fire store, dont do anything, else add to app
-              inFS = true;
+            slot = sessionData[j]; // slot in firestore
+            bool inApp = false; // assume  FSslot not in app data
+            for (int k = 0; k < data[dayData].length; k++) {
+              if (data[dayData].elementAt(k).slot == slot) {
+                // if that element is in fire store, dont do anything, else add to app
+                //print(slot);
+                inApp = true;
+              }
+            }
+            if (!inApp) {
+              data[dayData].add(Sessions(slot, false));
             }
           }
-          if (!inFS) {
-            data[dayData].removeAt(k);
+          print("2");
+          for (int k = 0; k < data[dayData].length; k++) {
+            String appSlot = data[dayData].elementAt(k).slot;
+            bool inFS = false;
+            for (int j = 0; j < sessionData.length; j++) {
+              if (sessionData[j] == appSlot) {
+                // if that element is in fire store, dont do anything, else add to app
+                inFS = true;
+              }
+            }
+            if (!inFS) {
+              data[dayData].removeAt(k);
+            }
           }
+
+          // print(await element.documents.elementAt(i).data['sessions']);
+          // data[dayData].forEach((e) {
+          //   print(e.slot);
+          // });
+
+
+
         }
-
-        // print(await element.documents.elementAt(i).data['sessions']);
-        // data[dayData].forEach((e) {
-        //   print(e.slot);
-        // });
-
-        print(await element.documents.elementAt(i).data['sessions']);
-        data[dayData].forEach((e) {
-          print(e.slot);
-        });
 
         await updateUserData(data);
-        // await userData.document(uid).setData({
-        //   dayData: tempMap[dayData] ?? [],
-        // }, merge: true);
+
+
       }
-    });
+      );
+
   }
 
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
@@ -135,11 +136,13 @@ class DatabaseService {
       }
       tempMap[key] = tempList;
     }
+
     return UserData(uid: uid, availabilityData: tempMap);
   }
 
   // get user doc stream
   Stream<UserData> get user_data {
+    print("Getting data");
     return userData.document(uid).snapshots().map(_userDataFromSnapshot);
   }
 
