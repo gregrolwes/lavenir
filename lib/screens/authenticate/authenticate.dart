@@ -9,7 +9,6 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-
   bool showSignIn = true;
 
   String get _headerLabel {
@@ -25,8 +24,13 @@ class _AuthenticateState extends State<Authenticate> {
         elevation: 0.0,
         actions: <Widget>[
           FlatButton.icon(
-            onPressed: () { setState(() => showSignIn = !showSignIn); }, 
-            icon: Icon(Icons.person, color: mainColor,), 
+            onPressed: () {
+              setState(() => showSignIn = !showSignIn);
+            },
+            icon: Icon(
+              Icons.person,
+              color: headerTextColor,
+            ),
             label: Text(_headerLabel, style: headerTextStyle),
           ),
         ],
