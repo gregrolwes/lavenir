@@ -58,15 +58,15 @@ class _HomeState extends State<Home> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.access_time),
-            title: Text('Availability'),
+            label: 'Availability',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
-            title: Text('Announcements'),
+            label: 'Announcements',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today),
-            title: Text('Schedule'),
+            label: 'Schedule',
           ),
         ],
         currentIndex: _selectedIndex,
